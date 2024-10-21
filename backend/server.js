@@ -4,9 +4,15 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import qrcode from 'qrcode';
 import { v4 as uuidv4 } from 'uuid';
+import cors from 'cors';  // Import cors
+
 const PORT = process.env.PORT || 8000;
 
 const app = express();
+
+// Use cors middleware
+app.use(cors());
+
 app.use(bodyParser.json());
 
 const S3 = new S3Client({
@@ -16,11 +22,11 @@ const S3 = new S3Client({
         accessKeyId: process.env.CLOUDFLARE_ACCESS_KEY_ID,
         secretAccessKey: process.env.CLOUDFLARE_SECRET_ACCESS_KEY
     }
-  });
+});
 
 app.get('/', (req, res) => {
     res.json({ message: 'Hello from server!' });
-})
+});
 
 app.post('/generate', async (req, res) => {
     const url = req.body.url;
@@ -44,7 +50,7 @@ app.post('/generate', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Internal server error', error: error.message });
     }
-})
+});
 
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
