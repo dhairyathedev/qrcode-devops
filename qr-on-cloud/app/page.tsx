@@ -21,7 +21,7 @@ export default function Component() {
 
     try {
       const response = await fetch(process.env.NODE_ENV == "production"
-        ? "'/api/generate' "
+        ? "/api/generate' "
         : "http://localhost:8000/generate", {
         method: 'POST',
         headers: {
